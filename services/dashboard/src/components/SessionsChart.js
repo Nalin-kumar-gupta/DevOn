@@ -28,7 +28,7 @@ function getAxisData(cpuData,axis='x') {
   const data = [];
   const yData = [];
   for (let i in cpuData) {
-    data.push(cpuData[i].timestamp.substr(11,5));
+    data.push(cpuData[i].timestamp.substr(11,8));
     yData.push(cpuData[i].usage);
   }
   if(axis=='x') return data;

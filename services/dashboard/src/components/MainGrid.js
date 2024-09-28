@@ -34,12 +34,13 @@ export default function MainGrid({ selectedAppNo }) {
   const [logsData, setLogsData] = React.useState([]);
   const [selectedTimeRange, setSelectedTimeRange] = React.useState(1);
 
-  async function getMetrics() {
+  async function getMetrics(cnt) {
     console.log("from maingrid.jsfile" + selectedAppNo);
     try {
       const req = {
         selectedApp: selectedAppNo,
         selectedTimeRange: selectedTimeRange,
+        realtime: cnt,
       };
       const metrics = await dashboardApi.metricsFetch(req);
       setMetricsData(metrics);
@@ -64,7 +65,12 @@ export default function MainGrid({ selectedAppNo }) {
   }
 
   React.useEffect(() => {
-    getMetrics();
+    let cnt = 0;
+    getMetrics(cnt);
+    setInterval(() => {
+      cnt++;
+      getMetrics(cnt);
+    },[5000]);
     getLogs();
   }, [selectedAppNo]);
 
@@ -146,7 +152,7 @@ export default function MainGrid({ selectedAppNo }) {
         Logs
       </Typography>
       <Grid container spacing={2} columns={12}>
-        <CustomizedDataGrid logsData={logsData}/>
+        <CustomizedDataGrid logsData={logsData} />
       </Grid>
     </Box>
   );
