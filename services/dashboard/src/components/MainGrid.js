@@ -13,12 +13,13 @@ import SessionsChart from "./SessionsChart";
 import StatCard from "./StatCard";
 import dashboardApi from "../webApi/dashboardApi";
 
-export default function MainGrid() {
+export default function MainGrid({ selectedAppNo }) {
   const [logsData, setLogsData] = React.useState([]);
 
   async function getLogs() {
+    console.log("from maingrid.jsfile" + selectedAppNo);
     try {
-      const logs = await dashboardApi.logsFetch();
+      const logs = await dashboardApi.logsFetch(selectedAppNo);
       setLogsData(logs);
     } catch (error) {
       console.error("Failed to fetch logs:", error);
@@ -26,8 +27,8 @@ export default function MainGrid() {
   }
 
   React.useEffect(() => {
-    getLogs();
-  }, []);
+    getLogs(selectedAppNo);
+  }, [selectedAppNo]);
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
@@ -52,8 +53,8 @@ export default function MainGrid() {
         </Grid> */}
         <Grid size={{ sm: 12, md: 6 }}>
           <SessionsChart
-            title = {"CPU Usage"}
-            subTitle = {"CPU Usage of last 20 Minutes (MilliCores per minute)"}
+            title={"CPU Usage"}
+            subTitle={"CPU Usage of last 20 Minutes (MilliCores per minute)"}
             cpuData={logsData.map((element) => {
               return {
                 timestamp: element.timestamp,
@@ -64,12 +65,12 @@ export default function MainGrid() {
         </Grid>
         <Grid size={{ sm: 12, md: 6 }}>
           <SessionsChart
-            title = {"Memory Usage"}
-            subTitle = {"Memory Usage of last 20 Minutes (MB per minute)"}
+            title={"Memory Usage"}
+            subTitle={"Memory Usage of last 20 Minutes (MB per minute)"}
             cpuData={logsData.map((element) => {
               return {
                 timestamp: element.timestamp,
-                usage: (element.memory_usage_bytes)/(1024*1024),
+                usage: element.memory_usage_bytes / (1024 * 1024),
               };
             })}
           />
