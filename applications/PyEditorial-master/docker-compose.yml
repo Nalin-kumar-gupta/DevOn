@@ -1,0 +1,51 @@
+version: "3.8"
+
+volumes:
+  local_postgres_data: {}
+  local_postgres_data_backups: {}
+
+networks:
+  pyeditorial_website_network:
+    driver: bridge
+    name: pyeditorial_website_network
+
+services:
+ web:
+    build:
+     context: .
+     dockerfile: Dockerfile
+    command: ./prod_start.sh
+    volumes:
+      - ./:/code
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy    
+    networks:
+      - default
+      - pyeditorial_website_network
+
+ postgres:
+    image: postgres:13.2
+    container_name: pyeditorial_website_postgres
+    restart: unless-stopped
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data:Z
+      - local_postgres_data_backups:/backups:z
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=abc_db
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+      - pyeditorial_website_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
