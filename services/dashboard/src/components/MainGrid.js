@@ -30,25 +30,42 @@ const timeRanges = [
 ];
 
 export default function MainGrid({ selectedAppNo }) {
+  const [metricsData, setMetricsData] = React.useState([]);
   const [logsData, setLogsData] = React.useState([]);
   const [selectedTimeRange, setSelectedTimeRange] = React.useState(1);
 
-  async function getLogs() {
+  async function getMetrics() {
     console.log("from maingrid.jsfile" + selectedAppNo);
     try {
       const req = {
         selectedApp: selectedAppNo,
         selectedTimeRange: selectedTimeRange,
       };
-      const logs = await dashboardApi.metricsFetch(req);
-      setLogsData(logs);
+      const metrics = await dashboardApi.metricsFetch(req);
+      setMetricsData(metrics);
+    } catch (error) {
+      console.error("Failed to fetch logs:", error);
+    }
+  }
+
+  async function getLogs() {
+    console.log("hello");
+    console.log("from maingrid.jsfile" + selectedAppNo);
+    try {
+      const req = {
+        selectedApp: selectedAppNo,
+        selectedTimeRange: selectedTimeRange,
+      };
+      const logs = await dashboardApi.logsFetch(req);
+      setLogsData(logs.sample);
     } catch (error) {
       console.error("Failed to fetch logs:", error);
     }
   }
 
   React.useEffect(() => {
-    getLogs(selectedAppNo);
+    getMetrics();
+    getLogs();
   }, [selectedAppNo]);
 
   const handleTimeRangeChange = (id) => {
@@ -104,7 +121,7 @@ export default function MainGrid({ selectedAppNo }) {
           <SessionsChart
             title={"CPU Usage"}
             subTitle={"CPU Usage of last 20 Minutes (MilliCores per minute)"}
-            cpuData={logsData.map((element) => {
+            cpuData={metricsData.map((element) => {
               return {
                 timestamp: element.timestamp,
                 usage: element.cpu_usage_millicores,
@@ -116,7 +133,7 @@ export default function MainGrid({ selectedAppNo }) {
           <SessionsChart
             title={"Memory Usage"}
             subTitle={"Memory Usage of last 20 Minutes (MB per minute)"}
-            cpuData={logsData.map((element) => {
+            cpuData={metricsData.map((element) => {
               return {
                 timestamp: element.timestamp,
                 usage: element.memory_usage_bytes / (1024 * 1024),
@@ -129,7 +146,7 @@ export default function MainGrid({ selectedAppNo }) {
         Logs
       </Typography>
       <Grid container spacing={2} columns={12}>
-        <CustomizedDataGrid />
+        <CustomizedDataGrid logsData={logsData}/>
       </Grid>
     </Box>
   );

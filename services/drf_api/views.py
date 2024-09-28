@@ -5,7 +5,7 @@ from rest_framework import status
 from .sample_cpu_memory import cpu_memory_data 
 from .data_to_json import extract_and_write_to_json 
 from .sample_table_data import table_data 
-class MatricsAPIView(APIView):
+class MetricsAPIView(APIView):
 
     def post(self, request):
         """
