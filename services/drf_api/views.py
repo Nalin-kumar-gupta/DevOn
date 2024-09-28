@@ -174,9 +174,12 @@ class LogsCaptureAPIView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 =======
         try:
-            app_no = request.data.get("appNo")
-            time_range = request.data.get("timeRange")
-            print(app_no)
+            # selectedApp
+            # selectedTimeRange
+            print(request)
+            app_no = request.data.get("selectedApp")
+            time_range = request.data.get("selectedTimeRange")
+            print(app_no, time_range)
             if not app_no:
                 return Response({"error": "appNo not provided"}, status=status.HTTP_400_BAD_REQUEST)
             json_data = extract_and_write_to_json(cpu_memory_data)

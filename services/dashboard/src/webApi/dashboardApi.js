@@ -1,5 +1,6 @@
 const djangoUri = "http://localhost:8000/api";
 
+<<<<<<< HEAD
 const metricsFetch = async (appNo) => {
   const response = await fetch(`${djangoUri}/metrics/`, {
     method: "POST",
@@ -15,12 +16,15 @@ const metricsFetch = async (appNo) => {
 };
 
 const logsFetch = async (appNo) => {
+=======
+const logsFetch = async (req) => {
+>>>>>>> cc05dcf (selected time range)
   const response = await fetch(`${djangoUri}/logs/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ appNo }),
+    body: JSON.stringify(req),
   });
   if (!response.ok) {
     throw new Error("Failed to fetch logs");
