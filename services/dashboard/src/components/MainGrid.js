@@ -11,14 +11,35 @@ import HighlightedCard from "./HighlightedCard";
 import PageViewsBarChart from "./PageViewsBarChart";
 import SessionsChart from "./SessionsChart";
 import StatCard from "./StatCard";
+import Chip from "@mui/material/Chip";
 import dashboardApi from "../webApi/dashboardApi";
+
+const timeRanges = [
+  {
+    id: 1,
+    label: "Current Day",
+  },
+  {
+    id: 7,
+    label: "Last Week",
+  },
+  {
+    id: 30,
+    label: "Last Month",
+  },
+];
 
 export default function MainGrid() {
   const [logsData, setLogsData] = React.useState([]);
+  const [selectedTimeRange, setSelectedTimeRange] = React.useState(1);
 
   async function getLogs() {
     try {
-      const logs = await dashboardApi.logsFetch();
+      const req = {
+        selectedApp: 1,
+        selectedTimeRange: selectedTimeRange,
+      };
+      const logs = await dashboardApi.logsFetch(req);
       setLogsData(logs);
     } catch (error) {
       console.error("Failed to fetch logs:", error);
@@ -36,6 +57,20 @@ export default function MainGrid() {
         Billing Overview
       </Typography> */}
       {/* <button onClick={getLogs}>Refresh</button> */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          margin: "auto",
+          marginBottom: "8px",
+        }}
+      >
+        <Stack direction="row" spacing={1}>
+          {timeRanges.map((ele) => {
+            return <Chip label="Chip Outlined" size="medium" variant="outlined" />;
+          })}
+        </Stack>
+      </Box>
       <Grid
         container
         spacing={2}
@@ -50,10 +85,11 @@ export default function MainGrid() {
         {/* <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <HighlightedCard />
         </Grid> */}
+
         <Grid size={{ sm: 12, md: 6 }}>
           <SessionsChart
-            title = {"CPU Usage"}
-            subTitle = {"CPU Usage of last 20 Minutes (MilliCores per minute)"}
+            title={"CPU Usage"}
+            subTitle={"CPU Usage of last 20 Minutes (MilliCores per minute)"}
             cpuData={logsData.map((element) => {
               return {
                 timestamp: element.timestamp,
@@ -64,12 +100,12 @@ export default function MainGrid() {
         </Grid>
         <Grid size={{ sm: 12, md: 6 }}>
           <SessionsChart
-            title = {"Memory Usage"}
-            subTitle = {"Memory Usage of last 20 Minutes (MB per minute)"}
+            title={"Memory Usage"}
+            subTitle={"Memory Usage of last 20 Minutes (MB per minute)"}
             cpuData={logsData.map((element) => {
               return {
                 timestamp: element.timestamp,
-                usage: (element.memory_usage_bytes)/(1024*1024),
+                usage: element.memory_usage_bytes / (1024 * 1024),
               };
             })}
           />

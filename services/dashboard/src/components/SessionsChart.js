@@ -80,7 +80,7 @@ export default function SessionsChart(props) {
           series={[
             {
               id: "packages",
-              label: "Packages",
+              label: title,
               showMark: false,
               curve: "linear",
               stack: "total",
