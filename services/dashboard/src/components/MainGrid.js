@@ -51,6 +51,10 @@ export default function MainGrid({ selectedAppNo }) {
     getLogs(selectedAppNo);
   }, [selectedAppNo]);
 
+  const handleTimeRangeChange = (id) => {
+    setSelectedTimeRange(id);
+  };
+
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
       {/* cards */}
@@ -64,11 +68,20 @@ export default function MainGrid({ selectedAppNo }) {
           justifyContent: "center",
           margin: "auto",
           marginBottom: "8px",
+          marginTop: "5px",
         }}
       >
         <Stack direction="row" spacing={1}>
           {timeRanges.map((ele) => {
-            return <Chip label="Chip Outlined" size="medium" variant="outlined" />;
+            return (
+              <Chip
+                onClick={() => handleTimeRangeChange(ele.id)}
+                color={selectedTimeRange == ele.id ? "success" : ""}
+                label={ele.label}
+                size="medium"
+                variant="outlined"
+              />
+            );
           })}
         </Stack>
       </Box>

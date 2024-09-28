@@ -28,7 +28,7 @@ const Toolbar = styled(MuiToolbar)({
   },
 });
 
-export default function AppNavbar() {
+export default function AppNavbar({setSelectedAppNo}) {
   return (
     <AppBar
       position="fixed"
@@ -62,7 +62,7 @@ export default function AppNavbar() {
               Dashboard
             </Typography>
           </Stack>
-          <SelectContent />
+          <SelectContent setSelectedAppNo={setSelectedAppNo}/>
           {/* <MenuButton aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuRoundedIcon />
           </MenuButton>
