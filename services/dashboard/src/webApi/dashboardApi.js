@@ -2,13 +2,13 @@ import axios from "axios";
 
 const djangoUri = "http://localhost:8000/api";
 
-const logsFetch = async (appNo) => {
+const logsFetch = async (req) => {
   const response = await fetch(`${djangoUri}/logs/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ appNo }),
+    body: JSON.stringify(req),
   });
   if (!response.ok) {
     throw new Error("Failed to fetch logs");
