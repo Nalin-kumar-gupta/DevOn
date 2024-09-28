@@ -17,15 +17,15 @@ import dashboardApi from "../webApi/dashboardApi";
 const timeRanges = [
   {
     id: 1,
-    label: "Current Day",
+    label: "Past 24 hours",
   },
   {
     id: 7,
-    label: "Last Week",
+    label: "Past Week",
   },
   {
     id: 30,
-    label: "Last Month",
+    label: "Past Month",
   },
 ];
 
@@ -64,7 +64,7 @@ export default function MainGrid({ selectedAppNo }) {
   }
 
   React.useEffect(() => {
-      getMetrics();
+    getMetrics();
     getLogs();
   }, [selectedAppNo]);
 
