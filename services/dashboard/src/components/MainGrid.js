@@ -37,7 +37,7 @@ export default function MainGrid({ selectedAppNo }) {
     console.log("from maingrid.jsfile" + selectedAppNo);
     try {
       const req = {
-        selectedApp: 1,
+        selectedApp: selectedAppNo,
         selectedTimeRange: selectedTimeRange,
       };
       const logs = await dashboardApi.logsFetch(req);
