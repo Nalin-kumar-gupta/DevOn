@@ -43,6 +43,7 @@ const conn = mysql.createConnection({
 conn.connect(function(err) {
   if (err){
     // Server will restart until database connection succeds
+    console.log(err);
     console.log('Cannot connect with database');
   }else{
     // Docker container will restart if database is not yet ready for connectivity

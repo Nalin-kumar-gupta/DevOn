@@ -16,7 +16,7 @@ services:
 
   mysql-dev:
     container_name: mysql-container
-    image: mysql:8.0.2
+    image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: node_crud
