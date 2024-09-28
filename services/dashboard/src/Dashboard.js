@@ -28,12 +28,14 @@ export default function Dashboard() {
         "(prefers-color-scheme: dark)"
       ).matches;
       setMode(systemPrefersDark ? "dark" : "light");
+      setMode(systemPrefersDark ? "dark" : "light");
     }
   }, []);
 
   const toggleColorMode = () => {
     const newMode = mode === "dark" ? "light" : "dark";
     setMode(newMode);
+    localStorage.setItem("themeMode", newMode); // Save the selected mode to localStorage
     localStorage.setItem("themeMode", newMode); // Save the selected mode to localStorage
   };
 
@@ -63,11 +65,13 @@ export default function Dashboard() {
               flexGrow: 1,
               backgroundColor: alpha(theme.palette.background.default, 1),
               overflow: "auto",
+              overflow: "auto",
             })}
           >
             <Stack
               spacing={2}
               sx={{
+                alignItems: "center",
                 alignItems: "center",
                 mx: 3,
                 pb: 10,
