@@ -10,9 +10,14 @@ from .logs_sample import all_logs_data
 =======
 from .sample_cpu_memory import cpu_memory_data 
 from .data_to_json import extract_and_write_to_json 
+<<<<<<< HEAD
 >>>>>>> acdf3fc (sample data sorting function)
 
 class LogsAPIView(APIView):
+=======
+from .sample_table_data import table_data 
+class MatricsAPIView(APIView):
+>>>>>>> dcb10d1 (logs call)
 
     def post(self, request):
         """
@@ -188,4 +193,20 @@ class LogsCaptureAPIView(APIView):
             return Response(json_data, status=status.HTTP_200_OK) 
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+<<<<<<< HEAD
 >>>>>>> acdf3fc (sample data sorting function)
+=======
+        
+class LogsAPIView(APIView):
+
+    def get(self, request):
+        """
+        Get all logs data.
+        """
+        try: 
+            return Response(table_data , status=status.HTTP_200_OK) 
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+>>>>>>> dcb10d1 (logs call)
