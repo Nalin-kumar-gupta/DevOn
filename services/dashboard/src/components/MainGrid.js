@@ -11,7 +11,8 @@ import HighlightedCard from "./HighlightedCard";
 import PageViewsBarChart from "./PageViewsBarChart";
 import SessionsChart from "./SessionsChart";
 import StatCard from "./StatCard";
-import { apicall } from "../webApi/api";
+import dashboardApi from "../webApi/dashboardApi";
+
 const data = [
   {
     title: "Packages Shipped",
@@ -47,14 +48,26 @@ const data = [
   },
 ];
 
+async function getLogs() {
+  try {
+    const logs = await dashboardApi.logsFetch();
+    console.log(logs);
+  } catch (error) {
+    console.error("Failed to fetch logs:", error);
+  }
+}
+
 export default function MainGrid() {
+  React.useEffect(() => {
+    getLogs();
+  }, []);
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
       {/* cards */}
       <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
         Billing Overview
       </Typography>
-      <button onClick={apicall}></button>
+      {/* <button onClick={getLogs}>Refresh</button> */}
       <Grid
         container
         spacing={2}
@@ -66,9 +79,9 @@ export default function MainGrid() {
             <StatCard {...card} />
           </Grid>
         ))}
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+        {/* <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <HighlightedCard />
-        </Grid>
+        </Grid> */}
         <Grid size={{ sm: 12, md: 6 }}>
           <SessionsChart />
         </Grid>
