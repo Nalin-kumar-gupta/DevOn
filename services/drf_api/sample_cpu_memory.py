@@ -1,5 +1,4 @@
 cpu_memory_data = {
-    {
     "sample_logs": [
         {
             "timestamp": "2024-09-28T12:45:00Z",
@@ -149,5 +148,4 @@ cpu_memory_data = {
             "memory_usage_bytes": 629145600
         }
     ]
-}
 }
