@@ -15,29 +15,23 @@ class MetricsAPIView(APIView):
         try:
             app_no = request.data.get("selectedApp")
             time_range = request.data.get("selectedTimeRange")
-            index = request.data.get("realtime") 
+            # index = request.data.get("realtime") 
 
-            print(f"App No: {app_no}, Time Range: {time_range}, Index: {index}")
 
             if app_no is None:
                 return Response({"error": "appNo not provided"}, status=status.HTTP_400_BAD_REQUEST)
-            if index is None:
-                return Response({"error": "realtime index not provided"}, status=status.HTTP_400_BAD_REQUEST)
-            try:
-                index = int(index)
-            except ValueError:
-                return Response({"error": "Invalid index format"}, status=status.HTTP_400_BAD_REQUEST)
 
-            window_size = 20
-            start_index = index * 5
-            end_index = start_index + window_size
+            # window_size = 20
+            # start_index = index * 5
+            # end_index = start_index + window_size
 
             if app_no == 1:
                 data = cpu_memory_data
             else:
                 data = cpu_memory_data_2
 
-            paginated_data = data[start_index:end_index]
+            # paginated_data = data[start_index:end_index]
+            paginated_data = data
 
             if not paginated_data:
                 return Response({"error": "No data available for the requested range"}, status=status.HTTP_404_NOT_FOUND)

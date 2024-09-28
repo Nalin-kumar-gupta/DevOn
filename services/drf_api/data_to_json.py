@@ -4,7 +4,7 @@ from datetime import datetime
 def extract_and_write_to_json(data):
     extracted_data = []
     
-    for log in data:
+    for log in data["sample_logs"]:
         extracted_data.append({
             "timestamp": log["timestamp"],
             "cpu_usage_millicores": log["cpu_usage_millicores"],
