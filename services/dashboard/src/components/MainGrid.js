@@ -13,59 +13,22 @@ import SessionsChart from "./SessionsChart";
 import StatCard from "./StatCard";
 import dashboardApi from "../webApi/dashboardApi";
 
-const data = [
-  {
-    title: "Packages Shipped",
-    value: "14k",
-    interval: "Last 30 days",
-    trend: "up",
-    data: [
-      200, 24, 220, 260, 240, 380, 100, 240, 280, 240, 300, 340, 320, 360, 340,
-      380, 360, 400, 380, 420, 400, 640, 340, 460, 440, 480, 460, 600, 880, 920,
-    ],
-  },
-  {
-    title: "Visualizations",
-    value: "325",
-    interval: "Last 30 days",
-    trend: "up",
-    data: [
-      220, 300, 360, 400, 480, 520, 500, 840, 620, 660, 740, 380, 760, 800, 780,
-      820, 600, 840, 820, 920, 450, 900, 1080, 720, 900, 1050, 1130, 970, 1250,
-      1640,
-    ],
-  },
-  {
-    title: "Bill",
-    value: "$524",
-    interval: "Last 30 days",
-    trend: "up",
-    data: [
-      300, 900, 600, 1200, 1500, 1800, 2400, 2100, 2700, 3000, 1800, 3300, 3600,
-      3900, 4200, 4500, 3900, 4800, 5100, 5400, 4800, 5700, 6000, 6300, 6600,
-      6900, 7200, 7500, 7800, 8100,
-    ],
-  },
-];
-
-async function getLogs() {
-  try {
-    const logs = await dashboardApi.logsFetch();
-    console.log(logs);
-  } catch (error) {
-    console.error("Failed to fetch logs:", error);
-  }
-}
-
 export default function MainGrid() {
+  const [logsData, setLogsData] = React.useState([]);
 
-  const [logsData,setLogsData] = React.useState();
+  async function getLogs() {
+    try {
+      const logs = await dashboardApi.logsFetch();
+      setLogsData(logs);
+    } catch (error) {
+      console.error("Failed to fetch logs:", error);
+    }
+  }
 
   React.useEffect(() => {
-    const logs = getLogs();
-    setLogsData(logs);
+    getLogs();
   }, []);
-  
+
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
       {/* cards */}
@@ -88,14 +51,32 @@ export default function MainGrid() {
           <HighlightedCard />
         </Grid> */}
         <Grid size={{ sm: 12, md: 6 }}>
-          <SessionsChart />
+          <SessionsChart
+            title = {"CPU Usage"}
+            subTitle = {"CPU Usage of last 20 Minutes (MilliCores per minute)"}
+            cpuData={logsData.map((element) => {
+              return {
+                timestamp: element.timestamp,
+                usage: element.cpu_usage_millicores,
+              };
+            })}
+          />
         </Grid>
         <Grid size={{ sm: 12, md: 6 }}>
-          <PageViewsBarChart />
+          <SessionsChart
+            title = {"Memory Usage"}
+            subTitle = {"Memory Usage of last 20 Minutes (MB per minute)"}
+            cpuData={logsData.map((element) => {
+              return {
+                timestamp: element.timestamp,
+                usage: (element.memory_usage_bytes)/(1024*1024),
+              };
+            })}
+          />
         </Grid>
       </Grid>
       <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-        Details
+        Logs
       </Typography>
       <Grid container spacing={2} columns={12}>
         <CustomizedDataGrid />

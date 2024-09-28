@@ -7,7 +7,7 @@ export default function CustomizedDataGrid() {
   return (
     <DataGrid
       autoHeight
-      checkboxSelection
+      // checkboxSelection
       rows={rows}
       columns={columns}
       getRowClassName={(params) =>
