@@ -10,24 +10,42 @@ class MetricsAPIView(APIView):
 
     def post(self, request):
         """
-        Get all logs data.
+        Get paginated logs data.
         """
         try:
-            print(request)
             app_no = request.data.get("selectedApp")
             time_range = request.data.get("selectedTimeRange")
-            index = request.data.get("realtime")
-            print(app_no, time_range)
-            window_size = 20
-            start_index = (index ) * 5
-            end_index = start_index + window_size
-            if not app_no:
+            index = request.data.get("realtime") 
+
+            print(f"App No: {app_no}, Time Range: {time_range}, Index: {index}")
+
+            if app_no is None:
                 return Response({"error": "appNo not provided"}, status=status.HTTP_400_BAD_REQUEST)
-            if(app_no == 1):
-                json_data = extract_and_write_to_json(cpu_memory_data)
-                return Response(json_data[start_index, end_index], status=status.HTTP_200_OK)  
-            json_data = extract_and_write_to_json(cpu_memory_data_2)
-            return Response(json_data[start_index, end_index], status=status.HTTP_200_OK) 
+            if index is None:
+                return Response({"error": "realtime index not provided"}, status=status.HTTP_400_BAD_REQUEST)
+            try:
+                index = int(index)
+            except ValueError:
+                return Response({"error": "Invalid index format"}, status=status.HTTP_400_BAD_REQUEST)
+
+            window_size = 20
+            start_index = index * 5
+            end_index = start_index + window_size
+
+            if app_no == 1:
+                data = cpu_memory_data
+            else:
+                data = cpu_memory_data_2
+
+            paginated_data = data[start_index:end_index]
+
+            if not paginated_data:
+                return Response({"error": "No data available for the requested range"}, status=status.HTTP_404_NOT_FOUND)
+
+            json_data = extract_and_write_to_json(paginated_data)
+
+            return Response(json_data, status=status.HTTP_200_OK)
+
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
