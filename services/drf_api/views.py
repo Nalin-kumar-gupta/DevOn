@@ -13,6 +13,7 @@ class LogsAPIView(APIView):
         """
         try:
             app_no = request.data.get("appNo")
+            time_range = request.data.get("timeRange")
             print(app_no)
             if not app_no:
                 return Response({"error": "appNo not provided"}, status=status.HTTP_400_BAD_REQUEST)
