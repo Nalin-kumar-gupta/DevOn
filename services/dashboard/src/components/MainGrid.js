@@ -40,7 +40,7 @@ export default function MainGrid({ selectedAppNo }) {
         selectedApp: selectedAppNo,
         selectedTimeRange: selectedTimeRange,
       };
-      const logs = await dashboardApi.logsFetch(req);
+      const logs = await dashboardApi.metricsFetch(req);
       setLogsData(logs);
     } catch (error) {
       console.error("Failed to fetch logs:", error);
