@@ -48,7 +48,7 @@ function renderSparklineCell(params) {
 
 function renderStatus(status) {
   const colors = {
-    Online: 'success',
+    Success: 'success',
     Offline: 'default',
   };
 
@@ -75,7 +75,20 @@ export function renderAvatar(params) {
 }
 
 export const columns = [
-  { field: 'pageTitle', headerName: 'Page Title', flex: 1.5, minWidth: 200 },
+  { field: 'pageTitle', headerName: 'Time Stamp', flex: 1, minWidth: 200 },
+  {
+    field: 'method',
+    headerName: 'Method',
+    flex: 0.5,
+    minWidth: 100,
+    renderCell: (params) => renderStatus(params.value),
+  },
+  {
+    field: 'endpoint',
+    headerName: 'Endpoint',
+    flex: 1,
+    minWidth: 80,
+  },
   {
     field: 'status',
     headerName: 'Status',
@@ -84,43 +97,10 @@ export const columns = [
     renderCell: (params) => renderStatus(params.value),
   },
   {
-    field: 'users',
-    headerName: 'Users',
-    headerAlign: 'right',
-    align: 'right',
-    flex: 1,
-    minWidth: 80,
-  },
-  {
-    field: 'eventCount',
-    headerName: 'Event Count',
-    headerAlign: 'right',
-    align: 'right',
-    flex: 1,
-    minWidth: 100,
-  },
-  {
-    field: 'viewsPerUser',
-    headerName: 'Views per User',
-    headerAlign: 'right',
-    align: 'right',
-    flex: 1,
-    minWidth: 120,
-  },
-  {
-    field: 'averageTime',
-    headerName: 'Average Time',
-    headerAlign: 'right',
-    align: 'right',
-    flex: 1,
-    minWidth: 100,
-  },
-  {
-    field: 'conversions',
-    headerName: 'Daily Conversions',
-    flex: 1,
-    minWidth: 150,
-    renderCell: renderSparklineCell,
+    field: 'message',
+    headerName: 'Message', 
+    flex: 1.5,
+    minWidth: 200,
   },
 ];
 
