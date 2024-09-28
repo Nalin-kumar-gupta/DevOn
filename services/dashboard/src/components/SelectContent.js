@@ -26,13 +26,16 @@ const ListItemAvatar = styled(MuiListItemAvatar)({
   marginRight: 12,
 });
 
-export default function SelectContent() {
-  const [company, setCompany] = React.useState("");
-
+export default function SelectContent({ setSelectedAppNo }) {
+  const [company, setCompany] = React.useState(1);
   const handleChange = (event) => {
-    setCompany(event.target.value);
+    const appNo = event.target.value;
+    setCompany(appNo);
+    setSelectedAppNo(appNo);
   };
-
+  const send_app_no = (number) => {
+    console.log(`Selected App No: ${number}`);
+  };
   return (
     <Select
       labelId="company-select"
@@ -57,7 +60,7 @@ export default function SelectContent() {
       }}
     >
       {/* <ListSubheader sx={{ pt: 0 }}>Production</ListSubheader> */}
-      <MenuItem value="">
+      <MenuItem value={1} onClick={() => send_app_no(1)}>
         <ListItemAvatar>
           <Avatar alt="App 1">
             <DevicesRoundedIcon sx={{ fontSize: "1rem" }} />
@@ -65,7 +68,7 @@ export default function SelectContent() {
         </ListItemAvatar>
         <ListItemText primary="Primary App" secondary="App 1" />
       </MenuItem>
-      <MenuItem value={10}>
+      <MenuItem value={2} onClick={() => send_app_no(2)}>
         <ListItemAvatar>
           <Avatar alt="App 2">
             <DevicesRoundedIcon sx={{ fontSize: "1rem" }} />

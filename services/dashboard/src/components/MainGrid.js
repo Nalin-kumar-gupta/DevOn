@@ -29,11 +29,12 @@ const timeRanges = [
   },
 ];
 
-export default function MainGrid() {
+export default function MainGrid({ selectedAppNo }) {
   const [logsData, setLogsData] = React.useState([]);
   const [selectedTimeRange, setSelectedTimeRange] = React.useState(1);
 
   async function getLogs() {
+    console.log("from maingrid.jsfile" + selectedAppNo);
     try {
       const req = {
         selectedApp: 1,
@@ -47,8 +48,8 @@ export default function MainGrid() {
   }
 
   React.useEffect(() => {
-    getLogs();
-  }, []);
+    getLogs(selectedAppNo);
+  }, [selectedAppNo]);
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
