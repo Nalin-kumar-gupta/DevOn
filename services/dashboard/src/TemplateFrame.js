@@ -56,7 +56,7 @@ function TemplateFrame({
           >
             <Button
               variant="text"
-              size="small"
+              size="medium"
               aria-label="stgiInfra"
               component="a"
               href="/"
@@ -64,15 +64,6 @@ function TemplateFrame({
             >
               STGI | InfraMonitor
             </Button>
-            <IconButton
-              size="small"
-              aria-label="stgiInfra"
-              component="a"
-              href="/material-ui/getting-started/templates/"
-              sx={{ display: { xs: "auto", sm: "none" } }}
-            >
-              <ArrowBackRoundedIcon />
-            </IconButton>
             <Box sx={{ display: "flex", gap: 1 }}>
               <FormControl variant="outlined" sx={{ minWidth: 180 }}>
                 <Select
@@ -83,8 +74,8 @@ function TemplateFrame({
                   onChange={handleChange}
                   label="Design Language"
                 >
-                  <MenuItem value="custom">Custom Theme</MenuItem>
-                  <MenuItem value="material">Material Design 2</MenuItem>
+                  <MenuItem value="custom">Small Text Theme</MenuItem>
+                  <MenuItem value="material">Large Text Theme</MenuItem>
                 </Select>
               </FormControl>
               <ToggleColorMode

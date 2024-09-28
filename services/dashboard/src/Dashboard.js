@@ -50,9 +50,8 @@ export default function Dashboard() {
       <ThemeProvider theme={showCustomTheme ? dashboardTheme : defaultTheme}>
         <CssBaseline enableColorScheme />
         <Box sx={{ display: 'flex' }}>
-          <SideMenu />
+          {/* <SideMenu /> */}
           <AppNavbar />
-          {/* Main content */}
           <Box
             component="main"
             sx={(theme) => ({
