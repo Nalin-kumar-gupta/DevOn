@@ -80,7 +80,7 @@ export const columns = [
     field: 'status',
     headerName: 'Status',
     flex: 0.5,
-    minWidth: 80,
+    minWidth: 100,
     renderCell: (params) => renderStatus(params.value),
   },
   {
