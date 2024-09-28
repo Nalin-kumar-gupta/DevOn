@@ -2,9 +2,9 @@ import axios from "axios";
 
 const djangoUri = "http://localhost:8000/api";
 
-const logsFetch = async (req) => {
+const logsFetch = async () => {
   try {
-    const response = await axios.post(`${djangoUri}/logs`);
+    const response = await axios.get(`${djangoUri}/logs`);
     return response.data;
   } catch (error) {
     console.error("Error fetching data:", error);
