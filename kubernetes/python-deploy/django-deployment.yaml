@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  labels:
+    app: pyeditorial-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pyeditorial-web
+  template:
+    metadata:
+      labels:
+        app: pyeditorial-web
+    spec:
+      containers:
+      - name: web
+        image: pyeditorial-master1:latest  # Replace this with your actual image name
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8000
+        envFrom:
+        - configMapRef:
+            name: web-env-config
+        # Optional volume mounts if needed
+        # volumeMounts:
+        # - name: code-volume
+        #   mountPath: /code
+        command: ["./prod_start.sh"]
+      # Optional volume definition if required
+      # volumes:
+      # - name: code-volume
+      #   hostPath:
+      #     path: /path/to/your/code  # Replace with the correct path on your host
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service-django
+spec:
+  type: NodePort
+  selector:
+    app: pyeditorial-web
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+      nodePort: 30005  # Pick a port between 30000 and 32767
