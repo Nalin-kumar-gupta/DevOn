@@ -16,8 +16,12 @@ from .data_to_json import extract_and_write_to_json
 class LogsAPIView(APIView):
 =======
 from .sample_table_data import table_data 
+<<<<<<< HEAD
 class MatricsAPIView(APIView):
 >>>>>>> dcb10d1 (logs call)
+=======
+class MetricsAPIView(APIView):
+>>>>>>> 48aef86 (table data manipulated)
 
     def post(self, request):
         """
