@@ -13,9 +13,10 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from django.contrib import admin
 
 urlpatterns = [
-   path('admin/', admin.site.urls)
+    path('admin/', admin.site.urls),
+    path('api/', include('drf_api.urls')), 
 ]
