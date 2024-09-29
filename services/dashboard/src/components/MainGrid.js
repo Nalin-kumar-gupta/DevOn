@@ -29,17 +29,19 @@ const timeRanges = [
   },
 ];
 
-export default function MainGrid({ selectedAppNo }) {
+export default function MainGrid({ selectedAppNo, date }) {
   const [metricsData, setMetricsData] = React.useState([]);
   const [logsData, setLogsData] = React.useState([]);
   const [selectedTimeRange, setSelectedTimeRange] = React.useState(1);
 
   async function getMetrics() {
     console.log("from maingrid.jsfile" + selectedAppNo);
+    console.log(date);
     try {
       const req = {
         selectedApp: selectedAppNo,
         selectedTimeRange: selectedTimeRange,
+        date: date ? date.toISOString() : null,
       };
       const metrics = await dashboardApi.metricsFetch(req);
       setMetricsData(metrics);
@@ -66,7 +68,7 @@ export default function MainGrid({ selectedAppNo }) {
   React.useEffect(() => {
     getMetrics();
     getLogs();
-  }, [selectedAppNo]);
+  }, [selectedAppNo, date]);
 
   const handleTimeRangeChange = (id) => {
     setSelectedTimeRange(id);

@@ -6,7 +6,7 @@ import NavbarBreadcrumbs from "./NavbarBreadcrumbs";
 import MenuButton from "./MenuButton";
 import Search from "./Search";
 
-export default function Header({ setSelectedAppNo }) {
+export default function Header({ setSelectedAppNo, setSelectedDate }) {
   return (
     <Stack
       direction="row"
@@ -28,7 +28,7 @@ export default function Header({ setSelectedAppNo }) {
       <NavbarBreadcrumbs setSelectedAppNo={setSelectedAppNo} />
       <Stack direction="row" sx={{ gap: 1 }}>
         {/* <Search /> */}
-        <CustomDatePicker />
+        <CustomDatePicker setSelectedDate={setSelectedDate} />
         {/* <MenuButton showBadge aria-label="Open notifications">
           <NotificationsRoundedIcon />
         </MenuButton> */}
