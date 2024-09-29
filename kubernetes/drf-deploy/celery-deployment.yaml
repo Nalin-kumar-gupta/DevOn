@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drf-celery-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drf-celery-worker
+  template:
+    metadata:
+      labels:
+        app: drf-celery-worker
+    spec:
+      containers:
+      - name: drf-celery-worker
+        image: drf_backend_web:latest
+        imagePullPolicy: Never
+        command: ["/start-worker.sh"]
+        envFrom:
+        - configMapRef:
+            name: app-env
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drf-celery-beat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drf-celery-beat
+  template:
+    metadata:
+      labels:
+        app: drf-celery-beat
+    spec:
+      containers:
+      - name: drf-celery-beat
+        image: drf_backend_web:latest
+        imagePullPolicy: Never
+        command: ["/start-beat.sh"]
+        envFrom:
+        - configMapRef:
+            name: app-env

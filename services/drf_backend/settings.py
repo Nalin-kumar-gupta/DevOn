@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from pathlib import Path
+from decouple import Config, RepositoryEnv
+
+# Load appropriate environment
+DJANGO_ENV = os.getenv('DJANGO_ENV', 'local')
+env = Config(RepositoryEnv(f'.env.{DJANGO_ENV}'))
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,12 +26,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env('DJANGO_SECRET_KEY')
+
 SECRET_KEY = 'r5o#k-qtc0@g40p6s7u-xzctvf9yy=ao1)jun0jzp^elttc6ce'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -39,6 +47,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'drf_api',
 )
 
 MIDDLEWARE = [
@@ -78,9 +87,38 @@ WSGI_APPLICATION = 'drf_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"rediss://{env('REDIS_HOST')}:{env('REDIS_PORT')}/0?ssl_cert_reqs={env('REDIS_SSL_CERT_REQS', default='CERT_NONE')}",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": env('REDIS_PASSWORD'),  # Redis password
+            "SSL": True,  # Enable SSL
+        }
+    }
+}
+
+CACHE_TTL = env('CACHE_TTL', default=60 * 15)
+
+# Celery settings
+CELERY_BROKER_URL = f"rediss://:{env('REDIS_PASSWORD')}@{env('REDIS_HOST')}:{env('REDIS_PORT')}/0?ssl_cert_reqs={env('REDIS_SSL_CERT_REQS', default='CERT_NONE')}"
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+
+CELERY_BROKER_USE_SSL = {
+    'ssl_cert_reqs': env('REDIS_SSL_CERT_REQS', default="CERT_NONE")
+}
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = env('CELERY_TIMEZONE', default='Asia/Kolkata')  # Default timezone
+
+# Password validation
 
 
 # Internationalization
