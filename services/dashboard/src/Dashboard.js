@@ -16,6 +16,7 @@ export default function Dashboard() {
   const dashboardTheme = createTheme(getDashboardTheme(mode));
   const defaultTheme = createTheme({ palette: { mode } });
   const [selectedAppNo, setSelectedAppNo] = React.useState(1);
+  const [date, setSelectedDate] = React.useState(null);
   // This code only runs on the client side, to determine the system color preference
   React.useEffect(() => {
     // Check if there is a preferred mode in localStorage
@@ -52,7 +53,7 @@ export default function Dashboard() {
         <CssBaseline enableColorScheme />
         <Box sx={{ display: "flex" }}>
           {/* <SideMenu /> */}
-          <AppNavbar setSelectedAppNo={setSelectedAppNo}/>
+          <AppNavbar setSelectedAppNo={setSelectedAppNo} />
           <Box
             component="main"
             sx={(theme) => ({
@@ -70,8 +71,11 @@ export default function Dashboard() {
                 mt: { xs: 8, md: 0 },
               }}
             >
-              <Header setSelectedAppNo={setSelectedAppNo} />
-              <MainGrid selectedAppNo={selectedAppNo}/>
+              <Header
+                setSelectedAppNo={setSelectedAppNo}
+                setSelectedDate={setSelectedDate}
+              />
+              <MainGrid selectedAppNo={selectedAppNo} date={date} />
             </Stack>
           </Box>
         </Box>

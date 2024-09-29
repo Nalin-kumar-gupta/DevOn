@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -189,12 +190,12 @@ class LogsCaptureAPIView(APIView):
         try:
             app_no = request.data.get("selectedApp")
             time_range = request.data.get("selectedTimeRange")
+            date = request.data.get("date")
             # index = request.data.get("realtime") 
-
+            print(date)
 
             if app_no is None:
                 return Response({"error": "appNo not provided"}, status=status.HTTP_400_BAD_REQUEST)
-
             # window_size = 20
             # start_index = index * 5
             # end_index = start_index + window_size
